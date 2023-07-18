@@ -1,0 +1,2 @@
+# Misleading-IoT-Adversaries-via-Moving-Target-Defense-Strategies
+We utilized MATLAB to compute the overall cost for the defender. To examine different scenarios, we varied the defense cost, encompassing expenses related to node relocation, signal transmission, and other supplementary costs. Subsequently, we generated a plot displaying the outcomes. Within each scenario, we evaluated the cost for three distinct models: general, no attack, and with attack model.
