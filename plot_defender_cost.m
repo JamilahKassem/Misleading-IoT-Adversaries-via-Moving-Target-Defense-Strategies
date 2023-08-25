@@ -25,8 +25,6 @@ else
     Cds_1=zeros(size(cds,1));
     Cds_2=zeros(size(cds,1));
     Cds_3=zeros(size(cds,1));
-    Cds_4=zeros(size(cds,1));
-    Cds_5=zeros(size(cds,1));
     C=1;
     ca=1/Nc;
     
@@ -53,40 +51,25 @@ else
         end
         Total=Total+(1-alpha(Pos(k),k))^2;
     end
-    cds_3_coefficient=(Nc-n*floor(ca))*(floor(ca)+1)*(1-ca/(floor(ca)+1))^2;
-    cds_4_coefficient=mod(Nc,n)*ceil(Nc/n)*(1-(floor(Nc/n)+mod(Nc,n)/n)/ceil(Nc/n))^2;
+    cds_2_coefficient=(Nc-n*floor(ca))*(floor(ca)+1)*(1-ca/(floor(ca)+1))^2;
+    cds_3_coefficient=mod(Nc,n)*ceil(Nc/n)*(1-(floor(Nc/n)+mod(Nc,n)/n)/ceil(Nc/n))^2;
     for cd=cds
         Cds_1(C)=Nc-Nc/(4*cd);
-        Cds_2(C)=Total_Network+Total*cd;
-        Cds_3(C)=cd*cds_3_coefficient;
-        Cds_4(C)=Nc/n+cd*cds_4_coefficient;
+        Cds_2(C)=cd*cds_2_coefficient;
+        Cds_3(C)=Nc/n+cd*cds_3_coefficient;
         C=C+1;
     end
 end
 figure;
 % ax_plot = axes('position',[.11 .22 0.8 .75]);
-Plot_Cds_1=plot(cds,Cds_1);
+plot(cds,Cds_1);
 hold on;
-% Plot_Cds_2=plot(cds,Cds_2);
-Plot_Cds_3=plot(cds,Cds_3);
-Plot_Cds_4=plot(cds,Cds_4);
+plot(cds,Cds_2);
+plot(cds,Cds_3);
 hold off;
 xlabel('defence cost');
 ylabel('defender cost');
 legend('Optimum','No attack optimum','with attack optimum');
-
-% cost_slider_text = uicontrol('style','text','Position',[250,7,30,20]);
-% set(cost_slider_text,'String',num2str(ca));
-% temp = uicontrol('style','text','Position',[10,7,30,20]);
-% set(temp,'String','Cd');
-% cost_slider = uicontrol('style','slider','Value',ca,'Position',[40,10,200,20]);
-% set_cost = @(~,e)changeCostSlider(e,cost_slider_text,cds,Plot_Cds_2);
-% addlistener(cost_slider, 'Value', 'PostSet',set_cost);
-
-% Number_text = uicontrol('style','text','Position',[500,7,30,20]);
-% set(Number_text,'String',num2str(Nc));
-% temp = uicontrol('style','text','Position',[260,7,30,20]);
-% set(temp,'String','Nc');
 % max = 40;
 % Count_sider = uicontrol('style','slider','Value',Nc,'Position',[290,10,200,20], 'Max',max, 'Min',1,'SliderStep', [1/(max-1), 1/(max-1)]);
 % set_number = @(~,e)changeNumberSlider(e,Number_text,cds,Plot_Cds_3,Plot_Cds_4);
