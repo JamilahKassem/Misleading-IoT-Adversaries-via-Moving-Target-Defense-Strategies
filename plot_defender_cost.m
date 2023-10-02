@@ -11,13 +11,14 @@ Cds_2=zeros(size(cds,1));
 Cds_3=zeros(size(cds,1));
 % attack cost
 ca=1/Nc;
-
-cds_2_coefficient=(Nc-n*floor(ca))*(floor(ca)+1)*(1-ca/(floor(ca)+1))^2;
-cds_3_coefficient=mod(Nc,n)*ceil(Nc/n)*(1-(floor(Nc/n)+mod(Nc,n)/n)/ceil(Nc/n))^2;
+Nc_mod_n = mod(Nc,n);
+cds_1_coefficient = Nc/n + 1 - (floor(Nc/n) + Nc_mod_n/n)/ceil(Nc/n);
+cds_2_coefficient = (Nc-n*floor(ca))*ceil(ca)*(1-ca/ceil(ca))^2;
+cds_3_coefficient = mod(Nc,n)*ceil(Nc/n)*(1-(floor(Nc/n)+Nc_mod_n/n)/ceil(Nc/n))^2;
 
 C=1;%counter coefficient
 for cd=cds
-    Cds_1(C)=(ceil(Nc/n))*(1-1/(4*cd));
+    Cds_1(C)=cds_1_coefficient - 1/(4*cd*Nc_mod_n*ceil(Nc/n));
     Cds_2(C)=cd*cds_2_coefficient;
     Cds_3(C)=Nc/n+cd*cds_3_coefficient;
     C=C+1;
