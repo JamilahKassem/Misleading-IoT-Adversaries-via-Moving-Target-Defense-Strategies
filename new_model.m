@@ -1,20 +1,21 @@
-function [ U,C ] = new_model( ca,cd,n,Nc,Coef1,coef2,math_limit )
+function [ U,C ] = new_model( ca,cd,n,Nc,Coef1,coef2,delta )
 if(ca<Nc/n)
-    temp=n/(2*(n-1));
-    if(cd<=temp)
+    if(delta>0)
+        C=Nc/n + delta + 1/(4*cd*mod(Nc,n)*ceil(Nc/n));
+        U=Nc/n + delta - ca;
+    else
         C=Nc/n+cd*Coef1;
         U=Nc/n-ca;
-    else
-        C=ceil(Nc/n)*(1+(mod(Nc,n)-2)/(4*cd));
-        U=ceil(Nc/n)*(1-1/(2*cd)-ca);
     end
 else
-    if(cd<=math_limit)
-        C=cd*coef2;
+    C1=cd*coef2;
+    C2=Nc/n + delta + 1/(4*cd*mod(Nc,n)*ceil(Nc/n));
+    if(C1<C2)
+        C=C1;
         U=0;
     else
-        C=ceil(Nc/n)*(1+(mod(Nc,n)-2)/(4*cd));
-        U=ceil(Nc/n)*(1-1/(2*cd)-ca);
+        C=C2;
+        U=Nc/n + delta - ca;
     end
 end
 end

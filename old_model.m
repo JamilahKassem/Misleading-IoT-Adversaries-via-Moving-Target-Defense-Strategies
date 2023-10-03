@@ -11,11 +11,12 @@ if(ca<1/n)
 else
     temp=(1+sqrt(2*ca-ca^2))/(2*(1-ca)^2);
     if(cd<=temp)
-        C=cd*(1-ca)^2;
-        U=0;
         if(ca<Nc/n)
-            C=C+ca;
-            U=ca;
+            C=ca+cd*(1-ca)^2;
+            U=ca-ca/Nc;
+        else
+            C=cd*(1-ca)^2;
+            U=0;
         end
     else
         C=1-1/(4*cd);

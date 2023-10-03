@@ -2,12 +2,12 @@ clear;
 clc;
 close all;
 % define number of nodes and networks
-Nc=1;
-n=2;
+% Nc=1;
+% n=2;
 % Nc=13;
 % n=5;
-% Nc=4;
-% n=5;
+Nc=4;
+n=5;
 
 % migration cost
 cd=3/2;
@@ -15,7 +15,7 @@ cd=3/2;
 ca=1/3;
 
 %initiate matrices for costs
-cds=0.1:0.1:10;
+cds=0.1:0.01:10;
 Cost_old=zeros(size(cds,1));
 Cost_old_modified=zeros(size(cds,1));
 Cost_new=zeros(size(cds,1));
@@ -47,6 +47,12 @@ end
 h=figure;
 plot(cds,Cost_old,'-','color','red');
 hold on;
+
+temp=(1+sqrt(2*ca-ca^2))/(2*(1-ca)^2);
+if temp>cds(1) && temp<cds(end)
+    xline(temp,'-r','logic model');
+end
+
 plot(cds,Cost_old_modified,'-+','color','red');
 plot(cds,Cost_new,'--','color','red');
 plot(cds,Utility_old,'-','color','blue');

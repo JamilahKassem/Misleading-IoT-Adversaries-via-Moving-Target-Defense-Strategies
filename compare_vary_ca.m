@@ -2,12 +2,12 @@ clear;
 clc;
 close all;
 % define number of nodes and networks
-% Nc=1;
-% n=2;
+Nc=1;
+n=2;
 % Nc=13;
 % n=5;
-Nc=4;
-n=5;
+% Nc=4;
+% n=5;
 
 % migration cost
 cd=3/2;
@@ -15,7 +15,7 @@ cd=3/2;
 ca=1/3;
 
 %initiateset(gcf, 'PaperUnits', 'normalized') matrices for costs
-cas=0.1:0.1:1;
+cas=0.1:0.001:1;
 Cost_old=zeros(size(cas,1));
 Cost_old_modified=zeros(size(cas,1));
 Cost_new=zeros(size(cas,1));
@@ -42,15 +42,31 @@ for ca=cas
     [ Utility_new(C),Cost_new(C) ] = new_model( ca,cd,n,Nc,Coef1,Coef2,delta );
     C=C+1;
 end
+
 h=figure;
 plot(cas,Cost_old,'-','color','red');
 hold on;
+
+temp=1-sqrt(4*cd-1)/(2*cd);
+if temp>cas(1) && temp<cas(end)
+    xline(temp,'-r','logic model');
+end
+if 1/n>temp
+    if 1/n>cas(1) && 1/n<cas(end)
+        xline(1/n,'-r','no attack');
+    end
+end
+if Nc/n>temp
+    if Nc/n>cas(1) && Nc/n<cas(end)
+        xline(Nc/n,'--r','no attack');
+    end
+end
+
 plot(cas,Cost_old_modified,'-+','color','red');
 plot(cas,Cost_new,'--','color','red');
 plot(cas,Utility_old,'-','color','blue');
 plot(cas,Utility_old_modified,'-+','color','blue');
 plot(cas,Utility_new,'--','color','blue');
-xline(0.5,'--r',{'Acceptable','Limit'});
 hold off;
 xlabel('attack cost ca');
 ylabel('Gain');
