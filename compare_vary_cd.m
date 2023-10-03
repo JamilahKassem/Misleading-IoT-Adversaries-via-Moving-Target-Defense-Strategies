@@ -2,12 +2,12 @@ clear;
 clc;
 close all;
 % define number of nodes and networks
-% Nc=1;
-% n=2;
+Nc=1;
+n=2;
 % Nc=13;
 % n=5;
-Nc=4;
-n=5;
+% Nc=4;
+% n=5;
 
 % migration cost
 cd=3/2;
@@ -29,11 +29,10 @@ Coef1 = mod(Nc,n)*ceil(Nc/n)*(1-(floor(Nc/n)+mod(Nc,n)/n)/ceil(Nc/n))^2;
 Coef2 = (Nc-n*floor(ca))*ceil(ca)*(1-ca/ceil(ca))^2;
 t = (1 - ca/ceil(ca))^2;
 N = (Nc - n * floor(ca)) * ceil(ca);
-math_limit_nume = 1 + sqrt(1 - N * t);
-math_limit_denume = abs(2 * N * t); 
-math_limit = math_limit_nume / math_limit_denume;
+Coef3 = 1 - Nc/(n * ceil(Nc/n));
 
 for cd=cds
+    delta = Coef3 - 1/(2*cd*mod(Nc,n)*ceil(Nc/n));
     [ Utility_old(C),Cost_old(C) ] = old_model( ca,cd,n,Nc );
     Cost_old(C) = Nc*Cost_old(C);
     Utility_old(C) = Nc*Utility_old(C);
@@ -42,7 +41,7 @@ for cd=cds
     Cost_old_modified(C) = Nc*Cost_old_modified(C);
     Utility_old_modified(C) = Nc*Utility_old_modified(C);
     
-    [ Utility_new(C),Cost_new(C) ] = new_model( ca,cd,n,Nc,Coef1,Coef2,math_limit );
+    [ Utility_new(C),Cost_new(C) ] = new_model( ca,cd,n,Nc,Coef1,Coef2,delta );
     C=C+1;
 end
 h=figure;
@@ -56,4 +55,6 @@ plot(cds,Utility_new,'--','color','blue');
 hold off;
 xlabel('migration cose cd');
 ylabel('Gain');
-legend('Original model cost','Modified model cost','New model cost','Original model utility','Modified model utility','New model utility');
+legend('Original model cost App1','Original model cost App2','New model cost','Original model utility App 1','Original model utility App2','New model utility');
+set(h,'papersize',[5.3 4.5]);
+print(h,['compare_cd_Nc_',num2str(Nc),'_n_',num2str(n)],'-dpdf');
